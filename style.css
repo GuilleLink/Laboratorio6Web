@@ -1,0 +1,123 @@
+body {
+    font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+    margin: 2em;
+    background-color: #c4a243;
+    background-image: url(./ZeldaBackground.png);
+}
+
+.frente1 {
+    cursor: pointer;
+    position: absolute;
+    transform: rotateY(0deg);
+    transition: 0.6s;
+    width: 40px;
+    height: 60px;
+    background-image: url(./.backLogo.png);
+}
+
+.atras1 {
+    backface-visibility: hidden;
+    position: absolute;
+    transform: rotateY(180deg);
+    transition: 0.6s;
+}
+
+.frente2 {
+    backface-visibility: hidden;
+    cursor: pointer;
+    position: absolute;
+    transform: rotateY(180deg);
+    transition: 0.6s;
+}
+
+.atras2 {
+    backface-visibility: hidden;
+    position: absolute;
+    transform: rotateY(0deg);
+    transition: 0.6s;
+    background-image: url(./.backLogo.png);
+}
+
+.image1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 10%;
+    background-image: url(./SkullKid.png);
+}
+
+.image2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 10%;
+    background-image: url(./Saria.png);
+}
+
+.image3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 10%;
+    background-image: url(./Malon.png);
+}
+
+.image4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 10%;
+    background-image: url(./YoungLink.png);
+}
+
+.image5 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 10%;
+    background-image: url(./AdultLink.png);
+}
+
+.image6 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 10%;
+    background-image: url(./Zelda.jpg);
+}
+
+.backLogo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 10%;
+    background-image: url(./.backLogo.png);
+}
+
+.header {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-rows: 20% 20% 20% 20%;
+    grid-template-columns: 20% 20% 20% 20%;
+}
+
+h1{
+    color:black;
+}
+
+h1:hover {
+    color: pink !important;
+}

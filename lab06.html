@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Lab06 - 17577</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        
+        class Card extends React.Component{ 
+            constructor(props){ 
+                super(props);
+                flipped: false;
+            } 
+            render(){
+                return(
+                <div className={this.props.backImage} onClick={this.handleClick.bind(this)}>  </div>
+            )
+            }
+            handleClick(){
+                this.props.checkFlipped(this.props.CardId)
+            }
+            
+        } 
+
+        class Contador extends React.Component {
+            constructor(props){
+                super(props);
+                
+                this.state = { 
+                    contador: 0 
+                }
+            }
+            render(){
+                <h1 style{{ background: this.state.bg }}> </h1>
+            }
+        }
+
+        class Game extends React.Component { 
+            constructor(props){ 
+                super(props);
+                
+                mixedCards:[]; 
+                
+                this.state = { 
+                    countPlays: 0, 
+                    countFlippedInPlay: 0,
+                    flipped:[],
+                    notFlipped:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] 
+                } 
+            } 
+            
+            checkFlipped(cardId){
+                //Verifica que la carta si exista en el array de flipeadas
+                if (this.state.flipped.indexOf(cardId) === -1){
+                    if (this.state.countFlippedInPlay == 2) { 
+                        this.setState({countFlippedInPlay: 0, countPlays: this.state.countPlays + 1}) 
+                    } 
+                    else 
+                    { 
+                        this.setState({countFlippedInPlay: this.state.countFlippedInPlay + 1}) 
+                    } 
+                }                
+            }
+            checkVictory(){
+                if (this.state.flipped.length === 16){
+
+                }
+                else{
+
+                }
+            }
+            render(){ return(
+                <div>
+                    <Card backImage='frente1' CardId='1' checkFlipped={ this.checkFlipped.bind(this) } />
+                </div>
+                ); 
+            } 
+        } 
+        ReactDOM.render( <Game />, document.getElementById("root"));
+    </script>
+</body>
+
+</html>

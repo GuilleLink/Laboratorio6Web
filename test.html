@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Lab06 - 17577</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        class Test extends React.Component{ 
+            constructor(props){
+                super(props);
+
+                this.state = {
+                    contador: 0
+                }
+            }
+
+            render(){ 
+                return(
+                    <div className='grid' >
+                        <Header />
+                        <Tittle backColor='red' contador={this.state.contador} onClick={()=> { this.setState({ contador: this.state.contador + 1 })}} />
+                        <Tittle backColor='white' contador={this.state.contador} onClick={()=> { this.setState({ contador: this.state.contador + 1 })}} />
+                        <Tittle backColor='blue' contador={this.state.contador} onClick={()=> { this.setState({ contador: this.state.contador + 1 })}} />
+                        <Contador contador={this.state.contador} />                          
+                    </div>
+                ) 
+            } 
+        } 
+
+        class Contador extends React.Component{    
+            render(){
+                return(
+                    <h1>Contador: {this.props.contador}</h1>
+                ) 
+            }
+        }
+
+        class Header extends React.Component{
+            render(){
+                return(
+                    <div className="header">
+                        <h1>Header React</h1>
+                    </div>
+                )
+            }
+        }
+
+        class Tittle extends React.Component{ 
+            constructor(props) { 
+                super(props); 
+                
+                this.state = { bg: props.backColor } 
+            } 
+
+            checkClicked(){
+                if(this.state.bg !== 'yellow'){     
+                    if(this.props.contador ===2){
+                        this.reset()                            
+                    }
+                    else{
+                        this.props.onClick()  
+                    }                
+                }
+            }
+            
+            reset(){
+                this.setState({ bg: 'red'})
+                this.props.onClick()
+            }
+
+            render(){ 
+                return(
+                    <h1 style={{ background: this.state.bg }} 
+                    onClick={()=> { 
+                        this.setState({ bg: 'yellow' }) 
+                        this.checkClicked()
+                        }
+                    }>
+                    {this.state.bg} {this.props.contador} </h1>
+                ) 
+            } 
+        } 
+        ReactDOM.render( <Test />,document.getElementById('root'))
+
+    </script>
+</body>
+
+</html>
