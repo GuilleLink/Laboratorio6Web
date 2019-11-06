@@ -17,18 +17,148 @@
                 super(props);
 
                 this.state = {
-                    contador: 0
+                    lastFlipped: null,
+                    contador2: 0,
+                    cards: [{
+                        bgImage: 'image1',
+                        backImage: 'backimage',
+                        flipped: false,
+                    },{
+                        bgImage: 'image1',
+                        backImage: 'backimage',
+                        flipped: false,
+                    },
+                    {
+                        bgImage: 'image2',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image2',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image3',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image3',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image4',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image4',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image5',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image5',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image6',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image6',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image7',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image7',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image8',
+                        backImage: 'backimage',
+                        flipped: false
+                    },
+                    {
+                        bgImage: 'image8',
+                        backImage: 'backimage',
+                        flipped: false
+                    }
+                    ],
+
                 }
+            }
+
+            cardsMatch(cards, newCard) {
+                console.log('cards', cards, this.state.lastFlipped)
+                console.log('Cartas Flippeadas', this.state.flipped)
+                const card1 = cards[this.state.lastFlipped]
+                const card2 = cards[newCard]
+
+                return card1.bgImage == card2.bgImage
+            }
+
+            mixCards(cards){
+                if (cards != null){
+                    console.log("Hay cartas")
+                }
+            }
+
+            addOnePlay(cardId){
+                const cards = [ ...this.state.cards ]
+                if (cards[cardId].contador2 == 0){
+                    mixCards(this.state.cards)
+                }                
+                if (cards[cardId].flipped != true){
+                    cards[cardId].flipped = true
+                    if (this.state.lastFlipped !== null){
+                        if (this.cardsMatch(cards, cardId)) {
+                            this.setState({ contador2: this.state.contador2 + 1, lastFlipped: null, cards })
+                        } else {
+                            setTimeout(() => {
+                                const card1 = cards[this.state.lastFlipped]
+                                const card2 = cards[cardId]
+                                card1.flipped = false
+                                card2.flipped = false
+                                this.setState({ contador2: this.state.contador2 + 1, lastFlipped: null, cards })                       
+                            }, 500);   
+                        }                  
+                    }
+                    else{
+                        this.setState({ lastFlipped: cardId, cards })
+                    }
+                }                                
             }
 
             render(){ 
                 return(
-                    <div className='grid' >
+                    <div className='mainDiv'>
                         <Header />
-                        <Tittle backColor='red' contador={this.state.contador} onClick={()=> { this.setState({ contador: this.state.contador + 1 })}} />
-                        <Tittle backColor='white' contador={this.state.contador} onClick={()=> { this.setState({ contador: this.state.contador + 1 })}} />
-                        <Tittle backColor='blue' contador={this.state.contador} onClick={()=> { this.setState({ contador: this.state.contador + 1 })}} />
-                        <Contador contador={this.state.contador} />                          
+                        <div className='grid' >
+                            {
+                                this.state.cards.map((card, idex) => {
+                                    return(
+                                        <Card key={idex} card={card} contador2={this.state.contador2} verdad= {card.flipped} uuuu={()=> { this.addOnePlay(idex) }}  />
+                                    )
+                                })
+                            }
+                            
+                        </div> 
+                        <Contador contador={this.state.contador} contador2={this.state.contador2} /> 
                     </div>
                 ) 
             } 
@@ -37,7 +167,7 @@
         class Contador extends React.Component{    
             render(){
                 return(
-                    <h1>Contador: {this.props.contador}</h1>
+                    <h1>ContadorJugadas: {this.props.contador2}</h1>
                 ) 
             }
         }
@@ -46,45 +176,27 @@
             render(){
                 return(
                     <div className="header">
-                        <h1>Header React</h1>
+                        <h1>Memoria React Juan Guillermo Sandoval Lacayo - 17577</h1>
                     </div>
                 )
             }
         }
 
-        class Tittle extends React.Component{ 
-            constructor(props) { 
-                super(props); 
-                
-                this.state = { bg: props.backColor } 
-            } 
-
-            checkClicked(){
-                if(this.state.bg !== 'yellow'){     
-                    if(this.props.contador ===2){
-                        this.reset()                            
-                    }
-                    else{
-                        this.props.onClick()  
-                    }                
-                }
-            }
-            
-            reset(){
-                this.setState({ bg: 'red'})
-                this.props.onClick()
-            }
-
+        class Card extends React.Component{ 
             render(){ 
-                return(
-                    <h1 style={{ background: this.state.bg }} 
-                    onClick={()=> { 
-                        this.setState({ bg: 'yellow' }) 
-                        this.checkClicked()
-                        }
-                    }>
-                    {this.state.bg} {this.props.contador} </h1>
+                if (!this.props.verdad){
+                    return(
+                    <div className={this.props.card.backImage} 
+                    onClick={ this.props.uuuu }
+                    ></div>
                 ) 
+                }
+                else {
+                    return(
+                    <div className={this.props.card.bgImage}> </div>
+                ) 
+                }
+                
             } 
         } 
         ReactDOM.render( <Test />,document.getElementById('root'))
