@@ -15,10 +15,11 @@
         class Test extends React.Component{ 
             constructor(props){
                 super(props);
-
+                
                 this.state = {
                     lastFlipped: null,
                     contador2: 0,
+                    mixedcards: [],
                     cards: [{
                         bgImage: 'image1',
                         backImage: 'backimage',
@@ -98,9 +99,16 @@
                         backImage: 'backimage',
                         flipped: false
                     }
-                    ],
-
+                    ],                    
                 }
+
+                for (var cont=0; cont< 16; cont++){ 
+                    var alazar = (parseInt(Math.random()*this.state.cards.length))    
+                    this.state.mixedcards.push(this.state.cards[alazar])
+                    //this.state.cards.splice(alazar, alazar);
+                }
+                console.log(this.state.mixedcards)
+                console.log(this.state.cards)
             }
 
             cardsMatch(cards, newCard) {
@@ -110,19 +118,10 @@
                 const card2 = cards[newCard]
 
                 return card1.bgImage == card2.bgImage
-            }
-
-            mixCards(cards){
-                if (cards != null){
-                    console.log("Hay cartas")
-                }
-            }
+            }            
 
             addOnePlay(cardId){
-                const cards = [ ...this.state.cards ]
-                if (cards[cardId].contador2 == 0){
-                    mixCards(this.state.cards)
-                }                
+                const cards = [ ...this.state.cards ]                 
                 if (cards[cardId].flipped != true){
                     cards[cardId].flipped = true
                     if (this.state.lastFlipped !== null){
@@ -144,7 +143,7 @@
                 }                                
             }
 
-            render(){ 
+            render(){                 
                 return(
                     <div className='mainDiv'>
                         <Header />
