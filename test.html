@@ -15,6 +15,8 @@
         class Test extends React.Component{ 
             constructor(props){
                 super(props);
+
+                this.running = null
                 
                 this.state = {
                     lastFlipped: null,
@@ -103,6 +105,7 @@
                     ],                    
                 }
 
+                //Mix cards
                 for (var cont=0; cont< 16; cont++){ 
                     var alazar = (parseInt(Math.random()*this.state.cards.length))    
                     this.state.mixedcards.push(this.state.cards[alazar])
@@ -113,8 +116,6 @@
             }
 
             cardsMatch(cards, newCard) {
-                console.log('cards', cards, this.state.lastFlipped)
-                console.log('Cartas Flippeadas', this.state.flippedcards)
                 const card1 = cards[this.state.lastFlipped]
                 const card2 = cards[newCard]
 
@@ -122,34 +123,44 @@
             }            
 
             addOnePlay(cardId){
-                const cards = [ ...this.state.mixedcards ]                 
-                if (cards[cardId].flipped != true){
-                    cards[cardId].flipped = true
-                    if (this.state.lastFlipped !== null){
-                        if (this.cardsMatch(cards, cardId)) {
-                        const card1 = cards[this.state.lastFlipped]
-                        const card2 = cards[cardId]
-                        this.state.flippedcards.push(card1)
-                        this.state.flippedcards.push(card2)
-                        this.setState({ contador2: this.state.contador2 + 1, lastFlipped: null, cards })
-                        if (this.state.flippedcards.length === this.state.mixedcards.length){
-                           console.log("GANASTE!!!")
+                if (this.running === null){
+                        const cards = [ ...this.state.mixedcards ]                 
+                    if (cards[cardId].flipped != true){
+                        cards[cardId].flipped = true
+                        if (this.state.lastFlipped !== null){
+                            if (this.cardsMatch(cards, cardId)) {
+                                const card1 = cards[this.state.lastFlipped]
+                                const card2 = cards[cardId]
+                                this.state.flippedcards.push(card1)
+                                this.state.flippedcards.push(card2)                                
+                                this.running = null
+                                this.setState({ contador2: this.state.contador2 + 1, lastFlipped: null, cards })
+                                if (this.state.flippedcards.length === this.state.mixedcards.length){
+                                alert("GANASTE!!!")
+                                }
+                            }                                
+                            else {
+                                this.setState({ cards })
+                                this.running = setTimeout(() => {
+                                    const card1 = cards[this.state.lastFlipped]
+                                    const card2 = cards[cardId]
+                                    card1.flipped = false
+                                    card2.flipped = false
+                                    this.running = null                                
+                                    this.setState({ contador2: this.state.contador2 + 1, lastFlipped: null, cards })                       
+                                }, 1000);       
+                                                        
+                            }                                   
                         }
-                        }                                
-                        else {
-                        setTimeout(() => {
-                            const card1 = cards[this.state.lastFlipped]
-                            const card2 = cards[cardId]
-                            card1.flipped = false
-                            card2.flipped = false
-                            this.setState({ contador2: this.state.contador2 + 1, lastFlipped: null, cards })                       
-                        }, 500);   
-                        }                                   
+                        else{
+                            this.setState({ lastFlipped: cardId, cards })
+                        }
                     }
-                    else{
-                        this.setState({ lastFlipped: cardId, cards })
-                    }
-                }                                
+                }
+                else{
+
+                }
+                                                
             }
 
             render(){                 
@@ -163,8 +174,7 @@
                                         <Card key={idex} card={card} contador2={this.state.contador2} verdad= {card.flipped} uuuu={()=> { this.addOnePlay(idex) }}  />
                                     )
                                 })
-                            }
-                            
+                            }                            
                         </div> 
                         <Contador contador={this.state.contador} contador2={this.state.contador2} /> 
                     </div>
